@@ -5,6 +5,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Toast from "../components/Toast";
 import { useNavigate } from "react-router-dom";
+import getGoogleOAuthURL from "../helpers/getGoogleUrl";
+import { BaseUrl } from "../constants/BaseUrl";
+import getFacebookOAuthURL from "../helpers/getFacebookUrl";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -25,7 +28,7 @@ const Register = () => {
     axios
       .post("http://localhost:8000/v1/user/register", data)
       .then(response => {
-        console.log(response);
+        localStorage.setItem(response.data.Message);
         Toast.success("Akun berhasil dibuat. ");
         navigate("/");
       })
@@ -74,7 +77,12 @@ const Register = () => {
           <p>OR</p>
           <hr />
         </div>
-        <GoogleButton style={{ width: "100%" }} />
+        <a href={getGoogleOAuthURL(BaseUrl.REGISTER_REDIRECT)}>
+          <GoogleButton style={{ width: "100%" }} />
+        </a>
+        <a href={getFacebookOAuthURL(BaseUrl.FACEBOOK_REGISTER_REDIRECT)}>
+          Facebook
+        </a>
       </form>
     </div>
   );

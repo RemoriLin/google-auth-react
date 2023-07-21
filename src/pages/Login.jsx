@@ -5,8 +5,9 @@ import Toast from "../components/Toast";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import google from "../constants/google";
 import getGoogleOAuthURL from "../helpers/getGoogleUrl";
+import { BaseUrl } from "../constants/BaseUrl";
+import getFacebookOAuthURL from "../helpers/getFacebookUrl";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -24,7 +25,7 @@ const Login = () => {
         console.log(response);
         Toast.success("Login berhasil. ");
         localStorage.setItem("tokenpublic", response.data.token);
-        navigate("/home");
+        navigate("/");
       })
       .catch(error => {
         console.error(error);
@@ -53,8 +54,11 @@ const Login = () => {
           <hr />
         </div>
 
-        <a href={getGoogleOAuthURL("http://localhost:5173/auth/google")}>
+        <a href={getGoogleOAuthURL(BaseUrl.LOGIN_REDIRECT)}>
           <GoogleButton style={{ width: "100%" }} />
+        </a>
+        <a href={getFacebookOAuthURL(BaseUrl.FACEBOOK_LOGIN_REDIRECT)}>
+          Facebook
         </a>
       </form>
     </div>
